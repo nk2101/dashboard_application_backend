@@ -4,6 +4,7 @@ const cors = require("cors");
 require("dotenv").config();
 
 const applicationRoutes = require("./routes/interviewRoutes");
+const authRoutes = require("./routes/authRoutes");
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // ── Routes ────────────────────────────────────────────────────────────────────
+app.use("/api/auth", authRoutes);
 app.use("/api/applications", applicationRoutes);
 
 // ── Health Check ──────────────────────────────────────────────────────────────
@@ -27,6 +29,8 @@ app.get("/", (req, res) => {
     message: "CareerPro Interview Backend is running 🚀",
     version: "2.0.0",
     endpoints: {
+      signup: "POST /api/auth/signup",
+      signin: "POST /api/auth/signin",
       submitApplication: "POST /api/applications",
       getAllApplications: "GET  /api/applications",
       getApplication: "GET  /api/applications/:id",
